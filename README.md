@@ -69,7 +69,24 @@ curl and mbedTLS and builds them as static libraries inside the build directory
 
 ## Building
 
-Presets are optional; plain CMake works on every desktop platform:
+The easiest way is the build script (Linux, macOS, WSL, or Git Bash/MSYS2 on Windows):
+
+```sh
+scripts/build.sh                 # native build, Release
+scripts/build.sh --test --run    # build, run unit tests, launch
+scripts/build.sh -c Debug        # debug build
+scripts/build.sh linux-arm64     # cross-compile for Linux aarch64
+scripts/build.sh web             # WebAssembly (activated emsdk required)
+scripts/build.sh android         # APK (Gradle + Android SDK required)
+scripts/build.sh --help          # all options
+```
+
+However you build, binaries are placed in `bin/<os>/<arch>/` with their `resources/` folder next to
+them, e.g. `bin/windows/x64/MDViewer.exe`, `bin/linux/arm64/MDViewer`, `bin/macos/universal/MDViewer`,
+`bin/web/wasm32/index.html`. Override with `-DMDV_OUTPUT_DIR=<dir>`. Debug and Release builds share
+the folder, so the last one built wins.
+
+Presets are optional too; plain CMake works on every desktop platform:
 
 ```sh
 cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
@@ -111,7 +128,7 @@ Install and activate the [Emscripten SDK](https://emscripten.org/docs/getting_st
 
 ```sh
 cmake --preset web && cmake --build --preset web
-cd build/web && python3 -m http.server 8080      # open http://localhost:8080
+cd bin/web/wasm32 && python3 -m http.server 8080   # open http://localhost:8080
 ```
 
 Open a document by URL with `http://localhost:8080/?doc=https://example.com/README.md`
@@ -126,7 +143,7 @@ Open the `android/` folder in Android Studio, or with Gradle 8.9+ and the Androi
 cd android && gradle assembleDebug
 ```
 
-The APK lands in `android/app/build/outputs/apk/debug/`.
+The APK lands in `android/app/build/outputs/apk/debug/` (`scripts/build.sh android` also copies it to `bin/android/`).
 
 ## Usage
 
