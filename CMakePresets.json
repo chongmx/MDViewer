@@ -10,17 +10,15 @@
     },
     {
       "name": "windows-x64",
-      "displayName": "Windows x64 (MSVC)",
+      "displayName": "Windows x64 (MSVC, newest installed Visual Studio)",
       "inherits": "base",
-      "generator": "Visual Studio 17 2022",
       "architecture": "x64",
       "condition": { "type": "equals", "lhs": "${hostSystemName}", "rhs": "Windows" }
     },
     {
       "name": "windows-arm64",
-      "displayName": "Windows ARM64 (MSVC)",
+      "displayName": "Windows ARM64 (MSVC, newest installed Visual Studio)",
       "inherits": "base",
-      "generator": "Visual Studio 17 2022",
       "architecture": "ARM64",
       "cacheVariables": { "MDV_BUILD_TESTS": "OFF" },
       "condition": { "type": "equals", "lhs": "${hostSystemName}", "rhs": "Windows" }
